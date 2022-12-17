@@ -65,7 +65,7 @@ for head_move in head_moves:
                 dist = distance(knot,knot_ahead)
 
                 if dist <=2**(1/2):
-                    # Either right next to or on top or diagonal.
+                    # Either right next to or on top or diagonal. Not enough distance to move knot
                     continue
                 else:
                     # check distance in y-dir
