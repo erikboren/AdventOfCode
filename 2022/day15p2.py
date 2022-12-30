@@ -28,6 +28,7 @@ class exc_range:
         else: res.append((start,stop))
 
         res.sort()
+
         self.ranges = res
         # This ensures that the number of ranges are kept to a minimum.
     def remove_point(self,point):
@@ -64,10 +65,25 @@ def find_unavailable_pos(y,sensors: list[sensor]) -> list[tuple[int,int]]:
 
         res.add_range(rstart,rstop)
     
-    for point in occupied:
-        res.remove_point(point)
+    # for point in occupied:
+    #     res.remove_point(point)
     
     return res.ranges
+
+def find_beacon(ranges,limit,y) -> None:
+    for i in range(len(ranges)-1):
+        
+        range1 = ranges[i]
+        range2 = ranges[i+1]
+
+        if range1[1] != range2[0]-1:
+            x  = range1[1]+1
+            if x > limit or x <0:
+                return 0
+            else:
+                print("Frequency: " + str(x*4000000+y))
+                return 1
+
 
 def parse(string: str):
     res: list[sensor] = []
@@ -86,11 +102,12 @@ def parse(string: str):
 
 def main(input):
     sensors = parse(input)
-    count = 0
-    for start, stop in find_unavailable_pos(2000000, sensors):
-        count += stop - start + 1
-    return count
-
+    limit = 4000000
+    for y in range(0,limit+1):
+        print(y)
+        res = find_beacon(find_unavailable_pos(y,sensors),limit,y)
+        if res == 1:
+            break
 
 if __name__ == "__main__":
     with open("day15 data.txt") as f:
