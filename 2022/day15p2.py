@@ -104,7 +104,6 @@ def main(input):
     sensors = parse(input)
     limit = 4000000
     for y in range(0,limit+1):
-        print(y)
         res = find_beacon(find_unavailable_pos(y,sensors),limit,y)
         if res == 1:
             break
