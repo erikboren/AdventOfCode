@@ -184,7 +184,7 @@ def solve(valves: list[valve], distances:dict[tuple[str,str]],start_location:str
             if res > best:
                 best = res
 
-    return res
+    return best
 
 
 def main(input):
