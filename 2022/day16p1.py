@@ -167,7 +167,7 @@ def solve(valves: list[valve], distances:dict[tuple[str,str]],start_location:str
         # Possible move-locations
         
         for valve in valves:
-            if not valve in node["open_valves"] and valve != node["location"] and valve != "AA" and action != "move":
+            if not valve in node["open_valves"] and valve != node["location"] and valve != "AA" and action != "move" and not cut:
                 if len(node["open_valves"]) != len(valves):
                     if distances[valve,node["location"]] + node["time"] < time_cap -2:
                         que.append([node,"move",valve,distances[valve,node["location"]]])
