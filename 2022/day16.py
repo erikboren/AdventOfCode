@@ -75,7 +75,7 @@ def find_distances(valves:list[valve]) -> dict[tuple[str,str]]:
 
         return res
 
-def solve(valves: list[valve], distances:dict[tuple[str,str]],start_location:str,time_cap:int)->int:
+def solve(valves: list[valve], distances:dict[tuple[str,str]],start_location:str,time_cap:int,run2:bool = True)->int:
     valves = {k:v for (k,v) in valves.items() if k==start_location or v.flow>0}
     # Filter out all valves with a flow not larger than 0
     
@@ -107,7 +107,7 @@ def solve(valves: list[valve], distances:dict[tuple[str,str]],start_location:str
                 que.append([node,"move",valve,distances[valve,node["location"]]])
 
 
-
+    best_node = node
     counter = 0
     while len(que) >0:
         counter += 1
@@ -183,6 +183,16 @@ def solve(valves: list[valve], distances:dict[tuple[str,str]],start_location:str
             pressure_relived.append(res)
             if res > best:
                 best = res
+                best_node = node
+    new_valves = dict()
+    for key in valves.keys():
+        if not key in node["open_valves"]:
+            new_valves[key] = valves[key]
+    if(run2):    
+        elephant= solve(new_valves,distances,"AA",time_cap,False)
+        print(best_node)
+        print(elephant)
+        
 
     return best
 
@@ -192,7 +202,7 @@ def main(input):
     distances = find_distances(valves)
 
     start_location = "AA"
-    time_cap = 30
+    time_cap = 26
 
     print(solve(valves,distances,start_location,time_cap))
 
